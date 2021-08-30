@@ -4,7 +4,7 @@ requires = ["poetry-core>=1.0.0"]
 [tool]
 [tool.poetry]
 authors = ["Firepup650 <firepyp650@gmail.com>"]
-description = "A wild west themed game"
+description = "A wild west themed game."
 name = "Yeehaw!"
 version = "0.30.AUG.21"
 [tool.poetry.dependencies]
