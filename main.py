@@ -1,16 +1,8 @@
-class bcolors:
-    OK = '\033[92m' #GREEN
-    WARNING = '\033[93m' #YELLOW
-    FAIL = '\033[91m' #RED
-    RESET = '\033[0m' #RESET COLOR
-    CYAN = '\033[36m' #CYAN
-    BROWN = '\033[33m' #BROWN
-from Reader import *
+from color import bcolors
+from Reader import read1
 def run():
   x=0
-  import sys
-  import os
-  import re
+  import sys,os,re
   l = re.compile('load')
   os.system('clear')
   my_secret = "Firepup650"
@@ -48,7 +40,6 @@ def run():
     print(f"{bcolors.FAIL}Importing content")
   import random, termios, fcntl 
   fd = sys.stdin.fileno()
-  # save old state
   flags_save = fcntl.fcntl(fd, fcntl.F_GETFL)
   attrs_save = termios.tcgetattr(fd)
   if x !=1:
@@ -73,19 +64,12 @@ def run():
   def clear():
     os.system("clear")
   def read2():
-    #old state restore
     termios.tcsetattr(fd, termios.TCSAFLUSH, attrs_save)
     fcntl.fcntl(fd, fcntl.F_SETFL, flags_save)
   def slep():
     time.sleep(1)
   def slleep():
     time.sleep(2)
-  def convert(tup):
-    '''Converts a tuple to a string'''
-    key2 = ''
-    for item in tup:
-          key2 = key2 + item
-    return key2
   if x != 1:
     print(f"{bcolors.OK}Definintions complete")
     slep()
@@ -109,8 +93,9 @@ def run():
   typing(f"{bcolors.BROWN}")
   if x != 1:
     wa.intro()
-  print()
+    print()
   x=2
+  c = 0
   while 1:
     if x != 1:
       typing(f"{bcolors.BROWN}")
@@ -122,36 +107,56 @@ def run():
     key = sys.stdin.read(1)
     read2()
     clear()
-    speed(key)
     if key == "a":
-      speed("\nleft")
+      speed("left")
+      c = 0
     elif key == "w":
-      speed("\nup")
+      speed("up")
+      c = 0
     elif key == "[":
-      key = sys.stdin.read(1)
-      speed(key)
-      if key == "A":
-        speed("\nup")
-      elif key == "B":
-        speed("\ndown")
-      elif key == "D":
-        speed("\nleft")
-      elif key == "C":
-        speed("\nright")
+      if c == 2:
+        read1()
+        key = sys.stdin.read(1)
+        read2()
+        c = 0
+        if key == "A":
+          speed("up")
+        elif key == "B":
+          speed("down")
+        elif key == "D":
+          speed("left")
+        elif key == "C":
+          speed("right")
+        else:
+          speed("bad")
       else:
-        speed("\nbad")
+        speed("nice try")
     elif key == "s":
-      speed("\ndown")
+      speed("down")
+      c = 0
     elif key == "d":
-      speed("\nright")
+      speed("right")
+      c = 0
     elif key == "\n":
-      pass
+      c = 0
     elif key == "\r":
-      pass
+      c = 0
+    elif key == "b":
+      read1()
+      speed('WARNING: THIS WILL TERMINATE THE PROGRAM, PRESS "t" TO CONTINUE')
+      speed("\n")
+      key = sys.stdin.read(1)
+      read2()
+      if key == "t":
+        raise(EOFError)
+      else:
+        speed("\nTermination cancled")
+      c=0
     else:
-      speed("\n'")
+      c = 2
+      speed('"')
       speed(key)
-      speed("' is not a command!")
+      speed('" is not a command!')
     x = 1
 def runner():
   try:
@@ -159,4 +164,6 @@ def runner():
   except KeyboardInterrupt:
     print("rash!")
     runner()
+  except EOFError:
+    print("\nProgram Terminated...")
 runner()
