@@ -23,7 +23,7 @@ def run(powercatch):
   my_secret = "Firepup650"
   import time
   Color(255)
-  print(f"Welcome to Yw-BCMDP! (ver. 0.21.OCT.21)")
+  print(f"Welcome to Yw-BCMDP! (ver. 0.29.OCT.21)")
   print(f"Type 'help' to see avalible commands")
   while x==0:
     Color(0, 255, 255)
