@@ -6,7 +6,12 @@ requires = ["poetry-core>=1.0.0"]
 authors = ["Firepup650 <firepyp650@gmail.com>"]
 description = "A wild west themed game."
 name = "Yeehaw!"
-version = "0.02.SEP.21"
+version = "0.29.OCT.21"
 [tool.poetry.dependencies]
-
+python = "^3.8"
+cryptography = "^35.0.0"
+alive-progress = "^2.0.0"
+cffi = "^1.15.0"
+grapheme = "^0.6.0"
+about-time = "^3.1.1"
 [tool.poetry.dev-dependencies]

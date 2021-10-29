@@ -1,4 +1,4 @@
-def read1():
+def getch():
     import termios, fcntl, sys, os
     fd = sys.stdin.fileno()
     # save old state
