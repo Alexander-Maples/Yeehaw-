@@ -1,4 +1,4 @@
-# **Yeehaw! Version: 0.29.OCT.21**
+# **Yeehaw! Version: 0.30.OCT.21**
 This is a game my little brother thought up
 
 Now with a power down system!

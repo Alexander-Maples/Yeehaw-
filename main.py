@@ -1,10 +1,14 @@
 from getch import getch as getc
 import termios, fcntl, sys
 from saveload import encrypt, decrypt
+from saveload import userencrypt as encryptt
+from saveload import userdecrypt as decryptt
 from Sequences import bar1, bar2
+from errors import RaiseShutDown, ShutDown
 fd = sys.stdin.fileno()
 flags_save = fcntl.fcntl(fd, fcntl.F_GETFL)
 attrs_save = termios.tcgetattr(fd)
+timeforshutdown = 0
 def geth():
     termios.tcsetattr(fd, termios.TCSAFLUSH, attrs_save)
     fcntl.fcntl(fd, fcntl.F_SETFL, flags_save)
@@ -15,32 +19,77 @@ def get():
   return key
 from color import bcolors, Color
 def run(powercatch):
+  global timeforshutdown
+  update = 0
   x=0
-  import sys,os,re
+  import sys,os,re,random
+  drive = random.choice(["A","B","D","E","F","G"])
+  userdrive = ""
   l = re.compile('load_')
   bar1()
   os.system('clear')
   my_secret = "Firepup650"
   import time
   Color(255)
-  print(f"Welcome to Yw-BCMDP! (ver. 0.29.OCT.21)")
+  print(f"Welcome to Yw-BCMDP! (ver. 0.30.OCT.21)")
   print(f"Type 'help' to see avalible commands")
   while x==0:
     Color(0, 255, 255)
     BCMDP = input(f"~/Yehaw{bcolors.RESET}$ ").lower()
     if BCMDP == "help":
-      print(f"{bcolors.BROWN}Commands:\n{bcolors.RESET}help\nroms\nload_(rom name)\nencode\ndecode\nreset\nclear\nquit\nexit\n[Command Deleted]")
+      print(f"{bcolors.BROWN}Commands:\n{bcolors.RESET}help\nroms\nload_(rom name)\nencode\ndecode\nclear\nquit\nexit\nshutdown\n[Command Deleted]")
     elif BCMDP == "roms":
-      print(f"{bcolors.BROWN}Roms:\n{bcolors.RESET}Yeehaw!")
+      print(f"{bcolors.BROWN}Roms:\n{bcolors.RESET}Yeehaw!)\nWood Cutter (Coming soon...)")
+    elif BCMDP == "...":
+      print(random.choice(["...","What do you want?","I'm not gonna tell you anything.","I mean it! I'm not telling you anything!","Fine, I'll tell you one thing...","There is more than one deleted command...","This command isn't on the command list...","Why are you here?","You got something to prove?","Just load the game!",f"{bcolors.WARNING}Invalid command!",f"{bcolors.WARNING}Invalid command!"]))
     elif BCMDP == "load_yeehaw!":
-      x=2
+      if powercatch == 1:
+        x=2
+      else:
+        if update != 0:
+          print(f"{bcolors.WARNING}A restart is required.")
+          if timeforshutdown == 0:
+            timeforshutdown = 1
+        else:
+          while 1:
+            os.system("clear")
+            print(f"Please insert the 'Rom Update Drive' into floppy disk drive {drive}.")
+            if userdrive != "":
+              print(f"I said 'floppy disk drive {drive}'!!!")
+            userdrive = get()
+            if drive.lower() == userdrive:
+              break
+          print("Updating Rom...")
+          time.sleep(5)
+          print("Rom Update complete")
+          update = 1
     elif BCMDP == "i":
-      x=1
+      if powercatch == 1:
+        x=1
+      else:
+        if update != 0:
+          print(f"{bcolors.WARNING}A restart is required.")
+          if timeforshutdown == 0:
+            timeforshutdown = 1
+        else:
+          while 1:
+            os.system("clear")
+            print(f"Please insert the 'Rom Update Drive' into floppy disk drive {drive}.")
+            if userdrive != "":
+              print(f"I said 'floppy disk drive {drive}'!!!")
+            userdrive = get()
+            if drive.lower() == userdrive:
+              break
+          print("Updating Rom...")
+          time.sleep(5)
+          print("Rom Update complete")
+          update = 1
     elif l.match(BCMDP):
       print(f"{bcolors.WARNING}Invalid rom or no rom name!{bcolors.RESET}")
     elif BCMDP == "quit":
         sys.exit(0)
     elif BCMDP == "exit":
+        print("exit")
         sys.exit(0)
     elif BCMDP == "clear":
         os.system('clear')
@@ -52,16 +101,18 @@ def run(powercatch):
         print(f"{bcolors.FAIL}INVALID CODE... GOODBYE")
         sys.exit(65)
     elif BCMDP == "encode":
-      coded = encrypt(input(f"{bcolors.OK}Message?:{bcolors.RESET} "))
+      coded = encryptt(input(f"{bcolors.OK}Message?:{bcolors.RESET} "))
       print(f"{bcolors.OK}encoded: {bcolors.RESET}{coded}")
     elif BCMDP == "decode":
       try:
-        coded = decrypt(input(f"{bcolors.OK}Message?:{bcolors.RESET} "))
+        coded = decryptt(input(f"{bcolors.OK}Message?:{bcolors.RESET} "))
       except:
         coded = "Bad message"
       print(f"{bcolors.OK}decoded: {bcolors.RESET}{coded}")
-    elif BCMDP == "reset":
-      raise(KeyboardInterrupt)
+    elif BCMDP == "system":
+     print(hash("o"))
+    elif BCMDP == "shutdown":
+      RaiseShutDown()
     elif BCMDP == "crash":
       raise(EnvironmentError)
     else:
@@ -111,7 +162,7 @@ def run(powercatch):
   def typing(words):
          words
          for char in words:
-                  time.sleep(random.choice([0.04, 0.04, 0.05, 0.05, 0.04, 0.038, 0.05]))
+                  time.sleep(0.7)
                   sys.stdout.write(char)
                   sys.stdout.flush()
   def speed(words):
@@ -120,7 +171,7 @@ def run(powercatch):
       sys.stdout.write(char)
       sys.stdout.flush()
   import wordart as wa
-  typing(f"{bcolors.WOOD}")
+  speed(f"{bcolors.WOOD}")
   wa.intro()
   print()
   x=2
@@ -128,9 +179,9 @@ def run(powercatch):
   direction = 0
   while 1:
     if x != 1:
-      typing(f"{bcolors.WOOD}")
+      speed(f"{bcolors.WOOD}")
       wa.town()
-      typing(f"{bcolors.RESET}")
+      speed(f"{bcolors.RESET}")
     else:
       wa.town2()
     key = get()
@@ -229,8 +280,10 @@ def run(powercatch):
       elif key == "a":
         if konamicode == 9:
           konamicode = 10
+          speed("\nTermination cancled")
         else:
           konamicode = 0
+          speed("\nTermination cancled")
       else:
         speed("\nTermination cancled")
       c=0
@@ -251,18 +304,27 @@ def run(powercatch):
     elif direction == 4:
       speed("right")
     x = 1
-import os, time, sys
+import os, sys
 power = 0
+timeforshutdown = 0
 def shutdown():
   global power
-  power += 1
+  global timeforshutdown
+  if timeforshutdown == 1:
+    power += 1
   try:
+    reset = ""
     while 1:
+      Color(255,255,255)
       os.system("clear")
-      print("You turned off your computer...\nPress 'crtl + c' or 'r' to turn it back on...")
+      print("You turned off your computer...\nPress 'r' to turn it back on...")
       reset = get()
       if reset == "r":
         raise KeyboardInterrupt
+      elif reset == "0":
+        raise EOFError
+  except EOFError:
+      print("\nProgram Terminated...")
   except KeyboardInterrupt:
     runner()
 def runner():
@@ -272,5 +334,7 @@ def runner():
     except EOFError:
       print("\nProgram Terminated...")
     except KeyboardInterrupt:
+      shutdown()
+    except ShutDown:
       shutdown()
 runner()
